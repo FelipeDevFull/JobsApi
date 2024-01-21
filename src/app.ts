@@ -1,12 +1,11 @@
 import express from 'express'
+import Router from "./routes/router"
 const app = express()
 
 //CONFIG JSON URL,
 app.use(express.json())
 
 //ROUTER_API
-app.get('/', function(req, res) {
-    res.send('hello world');
-});
+app.use(Router)
 
 export {app}
