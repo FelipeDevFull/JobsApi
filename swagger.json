@@ -1,0 +1,376 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+       "version": "1.0.0",
+       "title": "Swagger JobsApi",
+       "description": "Um exemplo de API desenvolvida em Node.js, Prisma e Mongodb para cadastrar ofertas de emprego.",
+       "termsOfService": "http://swagger.io/terms/",
+       "contact": {
+          "name": "Job API",
+          "email": "felipe.devfull@gmail.com",
+          "url": "https://felipefreela-portfolio.vercel.app/"
+       },
+       "license": {
+          "name": "Apache 2.0",
+          "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+       }
+    },
+    "servers": [
+       {
+          "url": "http://localhost:3000/"
+       }
+    ],
+    "paths": {
+       "/jobs": {
+          "get": {
+             "tags": [
+                "jobs"
+             ],
+             "summary": "Retorna todas as ofertas de emprego cadastradas no sistema.",
+             "description": "Rota responsável por listar as ofertas de emprego cadastradas no sistema.",
+             "operationId": "GetJobs",
+             "responses": {
+                "200": {
+                   "description": "Retorna a(s) oferta(s) de trabalho.",
+                   "content": {
+                      "application/json": {
+                         "schema": {
+                            "type": "array",
+                            "items": {
+                               "$ref": "#/components/schemas/Job"
+                            }
+                         }
+                      }
+                   }
+                },
+                  "404": {
+                     "description": "Nenhuma oferta de trabalho encontrada",
+                     "content": {
+                        "application/json": {
+                           "schema": {
+                              "type": "array",
+                              "items": {
+                                 "$ref": "#/components/schemas/Error"
+                              }
+                           }
+                        }
+                     }
+                  },
+                "500": {
+                   "description": "Erro inesperado.",
+                   "content": {
+                      "application/json": {
+                         "schema": {
+                            "$ref": "#/components/schemas/Error"
+                         }
+                      }
+                  }
+               }
+             }
+          },
+          "post": {
+             "tags": [
+                "jobs"
+             ],
+             "summary": "Cria uma oferta de trabalho.",
+             "description": "Rota responsável por criar uma oferta de trabalho.",
+             "operationId": "CreateJob",
+             "requestBody": {
+                "description": "Dados necessários para criar uma oferta de trabalho.",
+                "required": true,
+                "content": {
+                   "application/json": {
+                      "schema": {
+                         "$ref": "#/components/schemas/NewJob"
+                     }
+                  }
+                }
+             },
+             "responses": {
+                "201": {
+                   "description": "Oferta de trabalho criada com sucesso",
+                   "content": {
+                      "application/json": {
+                         "schema": {
+                            "$ref": "#/components/schemas/Job"
+                         }
+                      }
+                   }
+                },
+                "422": {
+                  "description": "Dados incompletos.",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/Error"
+                        }
+                     }
+                  }
+                },
+                "500": {
+                   "description": "Erro inesperado.",
+                   "content": {
+                      "application/json": {
+                         "schema": {
+                            "$ref": "#/components/schemas/Error"
+                         }
+                      }
+                   }
+                }
+             }
+          }
+       },
+       "/jobs/{id}": {
+          "get": {
+             "tags": [
+                "jobs"
+             ],
+             "summary": "Retorna uma oferta de trabalho tendo como base um ID.",
+             "description": "Rota responsável por listar uma oferta de emprego com base em um ID.",
+             "operationId": "GetOneJob",
+             "parameters": [
+                {
+                  "name": "id",
+                  "in": "path",
+                  "description": "ID da oferta de trabalho a ser buscada",
+                  "required": true,
+                  "type": "string",
+                  "format": "uuid"
+                  
+                }
+             ],
+             "responses": {
+                "200": {
+                   "description": "Retorna os dados da oferta de trabalho baseado no ID",
+                   "content": {
+                      "application/json": {
+                         "schema": {
+                            "$ref": "#/components/schemas/Job"
+                         }
+                      }
+                   }
+                },
+                "404": {
+                  "description": "Nenhuma oferta de trabalho encontrada",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "array",
+                           "items": {
+                              "$ref": "#/components/schemas/Error"
+                           }
+                        }
+                     }
+                  }
+               },
+                "422": {
+                  "description": "Dados incompletos.",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/Error"
+                        }
+                     }
+                  }
+                },
+                "500": {
+                   "description": "Erro inesperado.",
+                   "content": {
+                      "application/json": {
+                         "schema": {
+                            "$ref": "#/components/schemas/Error"
+                         }
+                      }
+                   }
+                }
+             }
+          },
+          "put": {
+            "tags": [
+               "jobs"
+            ],
+            "summary": "Altera os dados de uma oferta de trabalho tendo como base um ID.",
+            "description": "Rota responsável por alterar os dados de uma oferta de trabalho tendo como base um ID.",
+            "operationId": "AlterJob",
+            "parameters": [
+               {
+                 "name": "id",
+                 "in": "path",
+                 "description": "ID da oferta de trabalho a ser buscada.",
+                 "required": true,
+                 "type": "string",
+                 "format": "uuid"
+                 
+               }
+            ],
+            "requestBody": {
+               "description": "Dados necessários para alterar uma oferta de trabalho.",
+               "required": true,
+               "content": {
+                  "application/json": {
+                     "schema": {
+                        "$ref": "#/components/schemas/NewJob"
+                     }
+                  }
+               }
+            },
+            "responses": {
+               "200": {
+                  "description": "Oferta de trabalho alterada com sucesso",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/Job"
+                        }
+                     }
+                  }
+               },
+               "404": {
+                  "description": "Nenhuma oferta de trabalho encontrada",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "array",
+                           "items": {
+                              "$ref": "#/components/schemas/Error"
+                           }
+                        }
+                     }
+                  }
+               },
+               "422": {
+                 "description": "Dados incompletos.",
+                 "content": {
+                    "application/json": {
+                       "schema": {
+                          "$ref": "#/components/schemas/Error"
+                       }
+                    }
+                 }
+               },
+               "500": {
+                  "description": "Erro inesperado.",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/Error"
+                        }
+                     }
+                  }
+               }
+            }
+         },
+         "delete": {
+             "tags": [
+                "jobs"
+             ],
+             "summary": "Deleta uma oferta de trabalho tendo como base um ID.",
+             "description": "Rota responsável por deletar uma oferta de trabalho tendo como base um ID.",
+             "operationId": "DeleteJob",
+             "parameters": [
+                {
+                  "name": "id",
+                  "in": "path",
+                  "description": "ID da oferta de trabalho a ser excluida.",
+                  "required": true,
+                  "type": "string",
+                  "format": "uuid"
+                }
+             ],
+             "responses": {
+                "200": {
+                  "description": "Oferta de trabalho excluida com sucesso.",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/Error"
+                        }
+                     }
+                  }
+                },
+                "404": {
+                  "description": "Nenhuma oferta de trabalho encontrada",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "array",
+                           "items": {
+                              "$ref": "#/components/schemas/Error"
+                           }
+                        }
+                     }
+                  }
+                 },
+                "500": {
+                   "description": "Erro inesperado.",
+                   "content": {
+                      "application/json": {
+                         "schema": {
+                            "$ref": "#/components/schemas/Error"
+                         }
+                      }
+                   }
+                }
+             }
+          }
+       }
+    },
+    "components": {
+       "schemas": {
+          "Job": {
+            "type": "object",
+            "properties": {
+                 "id": {
+                     "type": "string"
+                 },
+                 "title": {
+                    "type": "string"
+                 },
+                 "city": {
+                    "type": "string"
+                 },
+                 "state": {
+                    "type": "string"
+                 },
+                 "description": {
+                    "type": "string"
+                 },
+                 "salary": {
+                    "type": "number"
+                 }
+              }   
+          },
+          "NewJob": {
+             "type": "object",
+             "required": [
+               "title", "city", "state", "description", "salary"
+            ],
+             "properties": {
+                  "title": {
+                     "type": "string"
+                  },
+                  "city": {
+                     "type": "string"
+                  },
+                  "state": {
+                     "type": "string"
+                  },
+                  "description": {
+                     "type": "string"
+                  },
+                  "salary": {
+                     "type": "number"
+                  }
+               }   
+           },
+          "Error": {
+             "type": "object",
+             "properties": {
+                "message": {
+                   "type": "string"
+                }
+               }
+          }
+       }
+    }
+}
