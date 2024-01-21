@@ -4,7 +4,7 @@ import { SaveJobController } from "../controller/SaveJobController";
 import { GetJobController } from "../controller/GetJobController";
 import { GetOneJobController } from "../controller/GetJobOneController";
 import { AlterJobController } from "../controller/AlterJobController";
-
+import { DeleteJobController } from "../controller/DeleteJobController";
 
 import { Validate } from "../middleware/Validate";
 
@@ -14,5 +14,6 @@ Routes.post("/v1/jobs",Validate, new SaveJobController().create);
 Routes.get("/v1/jobs", new GetJobController().getAll);
 Routes.get("/v1/jobs/:id", new GetOneJobController().getOne);
 Routes.put("/v1/jobs/:id",Validate, new AlterJobController().alter);
+Routes.delete("/v1/jobs/:id", new DeleteJobController().delete);
 
 export default Routes;
