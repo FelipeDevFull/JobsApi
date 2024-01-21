@@ -21,4 +21,12 @@ Routes.delete("/v1/jobs/:id", new DeleteJobController().delete);
 //swagger
 Routes.use('/v1/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 
+//Redocly
+Routes.get('/v1/doc',(req: Request, res: Response) => {
+  return res.sendFile(process.cwd() + '\\'+'swagger.json')
+})
+Routes.get('/v1/redocly',(req: Request, res: Response) => {
+  return res.sendFile(process.cwd() + '\\'+'index.html')
+})
+
 export default Routes;
